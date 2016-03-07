@@ -1,0 +1,9 @@
+"AddonInfo"
+{
+	"name"		"Wonderful Warnings"
+	"version"	"Release Canidate 1"
+	"up_date"	"3/6/2016"
+	"author_name"	"Potatofactory"
+	"author_email"	"mrpotatofactory@gmail.com"
+	"info"		""
+}
