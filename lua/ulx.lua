@@ -53,11 +53,18 @@ function WonderWarnings.LoadULX()
 		if WonderWarnings.Config.Actions["Sounds"] then
 			target_ply:EmitSound( "buttons/button10.wav", SNDLVL_NORM, 100, 1) 
 			for _, fname in pairs(WonderWarnings.Config.Sounds) do
-				target_ply:EmitSound( fname, SNDLVL_180dB, 100, 1 )
+				if string.find(fname, "http") ~= 1 then
+					target_ply:EmitSound( fname, SNDLVL_180dB, 100, 1 )
+				end
 			end
 			for _, ply in pairs(player.GetAll()) do
 				if target_ply:GetPos():Distance(ply:GetPos()) > 1500 then
 					for _, fname in pairs(WonderWarnings.Config.Sounds) do
+						if string.find(fname, "http") == 1 then
+							ply:SendLua( [[
+								sound.PlayURL("]] .. fname .. [[", "mono", function() end)
+							]] )
+						end
 						ply:SendLua( [[surface.PlaySound("]] .. fname .. [[")]] )
 					end
 				end

@@ -39,7 +39,7 @@ function WonderWarnings.WarningsCheck( ply )
 	elseif month >= tonumber( os.date( "%m", os.time() ) ) + WonderWarnings.Config.Actions["ClearWarnings"] then
 		ply:RemovePData( 'warnings_month' )
 		ply:RemovePData( 'warnings' )
-		WonderWarnings.WarnEPOELog( "Running cleanup on " ..  ply:Nick() .. "'s warnings. Reason (\"Month Expired\")." )
+		WonderWarnings.WarnEPOELog( "Running cleanup on " ..  ply:Nick() .. "'s warnings. Reason (\"Time Expired\")." )
 	end
 end
 
