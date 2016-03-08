@@ -1,8 +1,8 @@
 WonderWarnings = {} -- OH BOI HERE WE GO
 
 include("autorun/config.lua")
-include("aowl.lua")
-include("ulx.lua")
+include("wws/aowl.lua")
+include("wws/ulx.lua")
 
 if aowl then WonderWarnings.LoadAowl()
 elseif ulx then WonderWarnings.LoadULX()
