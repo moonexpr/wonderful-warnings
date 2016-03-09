@@ -1,6 +1,6 @@
 WonderWarnings = {} -- OH BOI HERE WE GO
 
-include("autorun/config.lua")
+include("autorun/ww_config.lua")
 include("wws/aowl.lua")
 include("wws/ulx.lua")
 
