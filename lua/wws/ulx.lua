@@ -17,17 +17,14 @@ function WonderWarnings.LoadULX()
 			target_ply:Kick( string.gsub( string.gsub( WonderWarnings.Config.Kick["DisconnectMessage"], "{#}", iWarnTotal ), "{reason}", reason ) 
 		end
 		local function BanPlayer(target_ply)
-			if WonderWarnings.Config.Ban["Reset"] then
-				target_ply:SetPData( 'warnings_kicked', false ) -- Resets the warnings for next time
-				target_ply:SetPData( 'warnings', 0 )
-			end
 			ULib.ban( target_ply, WonderWarnings.Config.Ban["Time"], string.gsub( WonderWarnings.Config.Ban["DisconnectMessage"], "{num}", iWarnBan ) )
+			target_ply:ResetWarnings()
 		end
 
 		if not target_ply:IsBot() then
 			local bKicked = target_ply:GetPData( 'warnings_kicked', false )
-			target_ply:SetPData( 'warnings_month', os.date( "%m", os.time() ) )
-			target_ply:SetPData( 'warnings', iWarnTotal )
+			target_ply:AddWarning( iWarnTotal )
+
 			if WonderWarnings.Config.Actions["NetworkVariable"] then target_ply:SetNWInt( 'warnings', iWarnTotal ) end
 			if isstring(WonderWarnings.Config.Actions["AccountMessage"]) then
 				target_ply:SendLua( string.gsub( string.gsub( StatMessage, "{#}", iWarnTotal ), "{reason}", reason ) )	

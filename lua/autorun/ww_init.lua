@@ -1,6 +1,7 @@
 WonderWarnings = {} -- OH BOI HERE WE GO
 
 include("autorun/ww_config.lua")
+include("wws/sv_actions.lua")
 include("wws/aowl.lua")
 include("wws/ulx.lua")
 
@@ -8,17 +9,17 @@ if aowl then WonderWarnings.LoadAowl()
 elseif ulx then WonderWarnings.LoadULX()
 else Error("Cannot find supported administration mod!") end
 
-function WonderWarnings.WarnEPOELog( msg )
-	if not epoe then
-		parse = string.format( "chat.AddText(Color(200, 0, 0), [[Wonderful Warnings: ]], Color(255, 255, 255), [[%s\n]])", msg )
-		for _, ply in pairs( player.GetAll() ) do
+function WonderWarnings.Log( msg )
+	if epoe then
+		parse = string.format( "epoe.AddText(Color(200, 0, 0), [[Wonderful Warnings: ]], Color(255, 255, 255), [[%s\n]])", msg )
+		for _, ply in pairs(player.GetAll()) do
 			if ply:IsAdmin() then
 				ply:SendLua(parse)
 			end
 		end
 	else 
-		parse = string.format( "epoe.AddText(Color(200, 0, 0), [[Wonderful Warnings: ]], Color(255, 255, 255), [[%s\n]])", msg )
-		for _, ply in pairs(player.GetAll()) do
+		parse = string.format( "chat.AddText(Color(200, 0, 0), [[Wonderful Warnings: ]], Color(255, 255, 255), [[%s\n]])", msg )
+		for _, ply in pairs( player.GetAll() ) do
 			if ply:IsAdmin() then
 				ply:SendLua(parse)
 			end
@@ -32,14 +33,11 @@ function WonderWarnings.WarningsCheck( ply )
 
 	local month = ply:GetPData( 'warnings_month', 99 )
 	if month == 99 then
-		ply:RemovePData( 'warnings_month' )
-		ply:RemovePData( 'warnings' )
-		ply:RemovePData( 'Warnings' )
-		WonderWarnings.WarnEPOELog( "Running cleanup on " ..  ply:Nick() .. "'s warnings. Reason (\"No past month data is available\")." )
+		target_ply:ResetWarnings()
+		WonderWarnings.Log( "Running cleanup on " ..  ply:Nick() .. "'s warnings. Reason (\"No past month data is available\")." )
 	elseif month >= tonumber( os.date( "%m", os.time() ) ) + WonderWarnings.Config.Actions["ClearWarnings"] then
-		ply:RemovePData( 'warnings_month' )
-		ply:RemovePData( 'warnings' )
-		WonderWarnings.WarnEPOELog( "Running cleanup on " ..  ply:Nick() .. "'s warnings. Reason (\"Time Expired\")." )
+		target_ply:ResetWarnings()
+		WonderWarnings.Log( "Running cleanup on " ..  ply:Nick() .. "'s warnings. Reason (\"Time Expired\")." )
 	end
 end
 
